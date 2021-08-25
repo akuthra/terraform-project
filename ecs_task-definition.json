@@ -1,0 +1,39 @@
+[
+    {
+      "name": "${name}",
+      "image": "${account_id}.dkr.ecr.${aws_region}.amazonaws.com/${ecr_repo}@${image_hash}",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80
+        }
+      ],
+      "environment": [
+        {
+          "name": "REPOSITORY_URL",
+          "value": "https://git-codecommit.${aws_region}.amazonaws.com/v1/repos/${repository_name}"
+        },
+        {
+          "name": "AWS_REGION",
+          "value": "${aws_region}"
+        },
+        {
+          "name": "AWS_ACCOUNT",
+          "value": "${account_id}"
+        },
+        {
+          "name": "JAVA_OPTS",
+          "value": "-Xmx1536m"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${name}",
+          "awslogs-region": "${aws_region}"
+        }
+      },
+      "memoryReservation": 1800,
+      "cpu": 1536
+    }
+  ]
